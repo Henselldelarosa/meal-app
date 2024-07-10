@@ -1,14 +1,27 @@
 import React from 'react'
 import {Image, Pressable, StyleSheet, Text, View, Platform} from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import MealDetails from './MealDetails'
+const MealItem = ( {id, title, imageUrl, duration, complexity, affordability, onPress}) => {
 
-const MealItem = ({title, imageUrl, duration, complexity, affordability, onPress}) => {
+  const navigation = useNavigation()
+
+  const handleMealSelect = () => {
+
+    navigation.navigate('Details', {
+      mealId : id
+    })
+  }
+
+
+
   return (
     <View style={styles.outterContainer}>
 
       <Pressable
         style={({pressed}) => [styles.button, pressed ? styles.buttonpressd : null]}
         android_ripple={{color: '#ccc'}}
-        onPress={onPress}
+        onPress={handleMealSelect}
       >
         <View style={styles.innerContainer}>
           <View>
@@ -16,11 +29,11 @@ const MealItem = ({title, imageUrl, duration, complexity, affordability, onPress
           <Text style={styles.title}>{title}</Text>
         </View>
 
-        <View style={styles.details}>
-            <Text style={styles.detailItem}>{duration}m</Text>
-            <Text style={styles.detailItem}>{complexity.toUpperCase()}</Text>
-            <Text style={styles.detailItem}>{affordability.toUpperCase()}</Text>
-          </View>
+          <MealDetails
+          complexity={complexity}
+          duration={duration}
+          affordability={affordability}
+          />
         </View>
       </Pressable>
 
@@ -59,19 +72,6 @@ const styles = StyleSheet.create({
     fontSize:18,
     margin:8
   },
-
-  details:{
-    flexDirection:'row',
-    alignItems:'center',
-    padding:8,
-    justifyContent: 'center'
-  },
-
-  detailItem:{
-    marginHorizontal:4,
-    fontSize: 12
-  },
-
 
   button:{
     flex:1

@@ -1,6 +1,6 @@
 import React,{useLayoutEffect} from 'react'
 import { MEALS, CATEGORIES } from '../data/dummy-data'
-import {View, Text, StyleSheet, FlatList} from 'react-native'
+import {View, StyleSheet, FlatList} from 'react-native'
 import MealItem from '../components/MealItem'
 
 
@@ -25,6 +25,7 @@ const MealsOverViewScreen = ({route, navigation}) => {
     const item = itemData.item
 
     const mealItemPriops={
+      id: item.id,
       title: item.title,
       imageUrl: item.imageUrl,
       affordability: item.affordability,
