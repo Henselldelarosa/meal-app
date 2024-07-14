@@ -1,4 +1,4 @@
-import React, {useContext, useLayoutEffect} from 'react'
+import React, {useContext, useEffect, useLayoutEffect} from 'react'
 import {Image, StyleSheet, Text,View, ScrollView, Button } from 'react-native'
 import { MEALS } from '../data/dummy-data'
 import MealDetails from '../components/MealDetails'
@@ -6,22 +6,30 @@ import Subtitle from '../components/MealDetail/Subtitle'
 import List from '../components/MealDetail/List'
 import IconButton from '../components/IconButton'
 import { FavoriteContext } from '../store/context/favorites-context'
+import { useDispatch, useSelector } from 'react-redux'
+import { addFavorite, removeFavorite } from '../store/redux/favorites'
 
 const MealDetailScreen = ({route, navigation}) => {
-  const favoriteMealsctx = useContext(FavoriteContext)
+
+  const favoriteMeal = useSelector(state => state.favorite.ids)
+  const dispatch = useDispatch()
+
+  // const favoriteMealsctx = useContext(FavoriteContext)
 
   const mealId = route.params.mealId
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId)
 
-  const mealIsFovorite = favoriteMealsctx.ids.includes(mealId)
-
+  // const mealIsFovorite = favoriteMealsctx.ids.includes(mealId)
+  const mealIsFovorite = favoriteMeal.includes(mealId)
 
   const handleChangeFavorite = () => {
     if(mealIsFovorite) {
-      favoriteMealsctx.removeFavorite(mealId)
+      dispatch(removeFavorite({id: mealId}))
+      // favoriteMealsctx.removeFavorite(mealId)
     }else{
-      favoriteMealsctx.addFavorite(mealId)
+      dispatch(addFavorite({id: mealId}))
+      // favoriteMealsctx.addFavorite(mealId)
     }
   }
 
